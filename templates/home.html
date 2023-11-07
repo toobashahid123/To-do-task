@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+ 
+{% block title %}Home{% endblock title %}
+ 
+{% block body %}
+
+<div class="container">
+    <div class="row py-4">
+        <div class="py-4 col-md-4 alert alert-success"  style="height: 550px;" >
+            <h2>Add new Task</h2>
+            <form action="{% url 'home' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="Title">Title</label>
+                  <input type="text" class="form-control" id="Title" name="Title" aria-describedby="emailHelp" required>
+                  <label for="Description">Description</label>
+                  <textarea type="text" name="Description" id="Description" cols="35" rows="10" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+                
+              </form>
+        </div>
+
+
+        <div class="col-md-8">
+
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Task Complted</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for task in task %}
+                  <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{ task.Title }}</td>
+                    <td>{{ task.Description }}</td>
+                    <td><input type="checkbox" aria-label="Checkbox for following text input" style=" text-decoration: line-through;"></td>
+                    <td><a href="{% url 'delete_task' task.id %}" class="btn btn-danger" role="button">Delete</a></td>
+                   
+                   
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
